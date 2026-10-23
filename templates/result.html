@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}Result | TB Care Assist{% endblock %}
+
+{% block content %}
+<section class="result-layout">
+    <div class="result-main-card">
+        <span class="badge" data-i18n="result.badge">Screening Result</span>
+
+        <h1 data-i18n="result.title">Patient TB Risk Assessment</h1>
+
+        <p class="result-note" data-i18n="result.text">
+            This result is for preliminary clinical screening support only and does not replace professional medical diagnosis.
+        </p>
+
+        <div class="risk-display
+            {% if risk_level == 'Low' %}risk-low{% endif %}
+            {% if risk_level == 'Moderate' %}risk-moderate{% endif %}
+            {% if risk_level == 'High' %}risk-high{% endif %}
+            {% if risk_level == 'Emergency' %}risk-emergency{% endif %}
+        ">
+            <span data-i18n="result.risk">Risk Level</span>
+            <h2 data-dynamic-i18n="{{ risk_key }}">{{ risk_level }}</h2>
+        </div>
+    </div>
+
+    <div class="result-side-card">
+        <h3>Assessment Summary</h3>
+
+        <div class="summary-row">
+            <span>Status</span>
+            <strong data-dynamic-i18n="{{ risk_key }}">{{ risk_level }}</strong>
+        </div>
+
+        <div class="summary-row">
+            <span>Report</span>
+            <strong>Available</strong>
+        </div>
+
+        <div class="summary-row">
+            <span>Action</span>
+            <strong>Follow Recommendation</strong>
+        </div>
+    </div>
+</section>
+
+<section class="recommendation-grid">
+    <div class="recommend-card">
+        <div class="recommend-header">
+            <span class="recommend-index">01</span>
+            <h3 data-i18n="result.recommendation">Clinical Recommendation</h3>
+        </div>
+
+        <p data-dynamic-i18n="{{ recommendation_key }}">
+            {{ recommendation }}
+        </p>
+    </div>
+
+    <div class="recommend-card lab-card">
+        <div class="recommend-header">
+            <span class="recommend-index">02</span>
+            <h3 data-i18n="result.lab_test">Recommended Lab Test(s)</h3>
+        </div>
+
+        <p data-dynamic-i18n="{{ test_recommendation_key }}">
+            {{ test_recommendation }}
+        </p>
+    </div>
+
+    <div class="recommend-card">
+        <div class="recommend-header">
+            <span class="recommend-index">03</span>
+            <h3 data-i18n="result.next">Next Step</h3>
+        </div>
+
+        <p data-i18n="result.next.text">
+            Follow the recommendation above and consult a qualified healthcare professional where necessary.
+        </p>
+    </div>
+</section>
+
+<section class="result-actions-card">
+    <div>
+        <h3>Report Actions</h3>
+        <p>Download the screening result or begin a new patient assessment.</p>
+    </div>
+
+    <div class="result-actions">
+        <a class="btn btn-primary" href="{{ url_for('export_pdf', screening_id=screening_id) }}">
+            Export PDF
+        </a>
+
+        <a class="btn btn-secondary" href="{{ url_for('screening') }}" data-i18n="result.new">
+            Start New Screening
+        </a>
+
+        <a class="btn btn-secondary" href="{{ url_for('home') }}" data-i18n="result.back">
+            Back Home
+        </a>
+    </div>
+</section>
+{% endblock %}

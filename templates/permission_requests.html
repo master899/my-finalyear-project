@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %}Permission Requests | TB Care Assist{% endblock %}
+
+{% block content %}
+<section class="admin-hero">
+    <div>
+        <span class="badge">Access Control</span>
+        <h1>Permission Requests</h1>
+        <p>
+            Review healthcare worker requests, approve access to user management,
+            reject invalid requests, or revoke existing permissions.
+        </p>
+    </div>
+</section>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-wrap">
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<section class="admin-grid">
+    <div class="admin-table-card">
+        <div class="card-header">
+            <div>
+                <h3>Permission Request History</h3>
+                <p>All requests submitted by healthcare workers.</p>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Permission</th>
+                        <th>Status</th>
+                        <th>Date Requested</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for item in requests %}
+                    <tr>
+                        <td>#{{ item.id }}</td>
+                        <td>{{ item.user.full_name }}</td>
+                        <td>{{ item.user.email }}</td>
+                        <td>{{ item.permission_type }}</td>
+                        <td>
+                            {% if item.status == 'pending' %}
+                                <span class="status-pill pending">Pending</span>
+                            {% elif item.status == 'approved' %}
+                                <span class="status-pill approved">Approved</span>
+                            {% else %}
+                                <span class="status-pill rejected">Rejected</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ item.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>
+                            {% if item.status == 'pending' %}
+                                <div class="action-group">
+                                    <form method="POST" action="{{ url_for('approve_permission_request', request_id=item.id) }}">
+                                        <button type="submit" class="btn btn-primary btn-small">Approve</button>
+                                    </form>
+
+                                    <form method="POST" action="{{ url_for('reject_permission_request', request_id=item.id) }}">
+                                        <button type="submit" class="btn btn-secondary btn-small">Reject</button>
+                                    </form>
+                                </div>
+                            {% else %}
+                                <span class="muted-text">Completed</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7">No permission requests yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="admin-table-card">
+        <div class="card-header">
+            <div>
+                <h3>Users With Add-User Permission</h3>
+                <p>Healthcare workers currently allowed to create users.</p>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Permission</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for user in users_with_permission %}
+                    <tr>
+                        <td>#{{ user.id }}</td>
+                        <td>{{ user.full_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.role }}</td>
+                        <td>
+                            <span class="status-pill approved">Granted</span>
+                        </td>
+                        <td>
+                            {% if user.role != 'admin' %}
+                                <form method="POST" action="{{ url_for('revoke_add_user_permission', user_id=user.id) }}">
+                                    <button type="submit" class="btn btn-secondary btn-small">Revoke</button>
+                                </form>
+                            {% else %}
+                                <span class="muted-text">Admin Protected</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6">No users currently have this permission.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

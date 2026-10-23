@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard | TB Care Assist{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-hero">
+    <div>
+        <span class="badge" data-i18n="dashboard.badge">Dashboard</span>
+        <h1 data-i18n="dashboard.title">Healthcare Worker Overview</h1>
+        <p data-i18n="dashboard.text">
+            Monitor screening records, risk distribution, and patient assessment outcomes.
+        </p>
+    </div>
+
+    {% if session.get('user_id') and session.get('user_role') != 'admin' and not session.get('can_add_user') %}
+        <div class="permission-box">
+            {% if existing_request %}
+                <button class="btn btn-secondary" disabled data-i18n="dashboard.permission_pending">Permission Request Pending</button>
+            {% else %}
+                <form method="POST" action="{{ url_for('request_add_user_access') }}">
+                    <button type="submit" class="btn btn-primary" data-i18n="dashboard.request_add_user">Request Add-User Access</button>
+                </form>
+            {% endif %}
+        </div>
+    {% endif %}
+</section>
+
+{% if session.get('user_id') and session.get('user_role') != 'admin' %}
+<section class="permission-status-card">
+    <div>
+        <h3 data-i18n="dashboard.user_management">User Management Access</h3>
+
+        {% if session.get('can_add_user') %}
+            <p data-i18n="dashboard.access_granted">You have been granted permission to add healthcare workers.</p>
+        {% elif existing_request %}
+            <p data-i18n="dashboard.access_pending">Your request to add users is currently pending admin approval.</p>
+        {% elif latest_request and latest_request.status == 'approved' %}
+            <p data-i18n="dashboard.access_approved">Your request has been approved. You can now add users.</p>
+        {% elif latest_request and latest_request.status == 'rejected' %}
+            <p data-i18n="dashboard.access_rejected">Your previous request was rejected. You may send another request if needed.</p>
+        {% else %}
+            <p data-i18n="dashboard.access_denied">You do not currently have permission to add users. You can request access from the system admin.</p>
+        {% endif %}
+    </div>
+
+    <div>
+        {% if session.get('can_add_user') %}
+            <a href="{{ url_for('register') }}" class="btn btn-primary" data-i18n="dashboard.add_user_btn">Add User</a>
+        {% elif existing_request %}
+            <button class="btn btn-secondary" disabled data-i18n="dashboard.request_pending">Request Pending</button>
+        {% else %}
+            <form method="POST" action="{{ url_for('request_add_user_access') }}">
+                <button type="submit" class="btn btn-primary" data-i18n="dashboard.request_permission">Request Permission</button>
+            </form>
+        {% endif %}
+    </div>
+</section>
+{% endif %}
+
+<section class="dashboard-stats">
+    <div class="stat-card">
+        <span data-i18n="dashboard.total">Total Screenings</span>
+        <h2>{{ total_screenings }}</h2>
+        <p data-i18n="dashboard.total_text">All submitted patient screening records</p>
+    </div>
+
+    <div class="stat-card high-stat">
+        <span data-i18n="dashboard.high">High Risk Cases</span>
+        <h2>{{ high_risk_cases }}</h2>
+        <p data-i18n="dashboard.high_text">Patients requiring urgent evaluation</p>
+    </div>
+
+    <div class="stat-card emergency-stat">
+        <span data-i18n="dashboard.emergency">Emergency Cases</span>
+        <h2>{{ emergency_cases }}</h2>
+        <p data-i18n="dashboard.emergency_text">Patients requiring immediate referral</p>
+    </div>
+</section>
+
+<section class="dashboard-grid">
+    <div class="analytics-card">
+        <div class="card-header">
+            <div>
+                <h3 data-i18n="dashboard.risk_distribution">Risk Distribution</h3>
+                <p data-i18n="dashboard.risk_distribution_text">Breakdown of screening outcomes</p>
+            </div>
+        </div>
+
+        <div class="chart-wrap">
+            <canvas
+                id="riskChart"
+                data-low="{{ low }}"
+                data-moderate="{{ moderate }}"
+                data-high="{{ high }}"
+                data-emergency="{{ emergency }}">
+            </canvas>
+        </div>
+    </div>
+
+    <div class="records-card">
+        <div class="card-header">
+            <div>
+                <h3 data-i18n="dashboard.recent">Recent Screening Records</h3>
+                <p data-i18n="dashboard.recent_text">Latest patient screening submissions</p>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Patient</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Risk</th>
+                        <th>Language</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for screening in screenings %}
+                    <tr>
+                        <td>#{{ screening.id }}</td>
+                        <td>{{ screening.patient_name }}</td>
+                        <td>{{ screening.age }}</td>
+                        <td>{{ screening.gender }}</td>
+                        <td>
+                            {% if screening.risk_level == 'Low' %}
+                                <span class="risk-pill low">{{ screening.risk_level }}</span>
+                            {% elif screening.risk_level == 'Moderate' %}
+                                <span class="risk-pill moderate">{{ screening.risk_level }}</span>
+                            {% elif screening.risk_level == 'High' %}
+                                <span class="risk-pill high">{{ screening.risk_level }}</span>
+                            {% else %}
+                                <span class="risk-pill emergency">{{ screening.risk_level }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ screening.language_selected }}</td>
+                        <td>{{ screening.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" data-i18n="dashboard.empty_records">
+                            No patient screening records have been submitted.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const canvas = document.getElementById("riskChart");
+
+    if (!canvas) return;
+
+    const low = Number(canvas.dataset.low || 0);
+    const moderate = Number(canvas.dataset.moderate || 0);
+    const high = Number(canvas.dataset.high || 0);
+    const emergency = Number(canvas.dataset.emergency || 0);
+
+    new Chart(canvas, {
+        type: "doughnut",
+        data: {
+            labels: ["Low", "Moderate", "High", "Emergency"],
+            datasets: [{
+                data: [low, moderate, high, emergency],
+                backgroundColor: ["#16a34a", "#f59e0b", "#dc2626", "#7f1d1d"],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: "68%",
+            plugins: {
+                legend: {
+                    position: "bottom",
+                    labels: {
+                        usePointStyle: true,
+                        padding: 18
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+
+{% endblock %}

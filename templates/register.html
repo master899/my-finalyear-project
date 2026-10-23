@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Add User | TB Care Assist{% endblock %}
+
+{% block content %}
+<section class="auth-layout">
+    <div class="auth-info-card">
+        <span class="badge">User Management</span>
+
+        <h1>Add Healthcare Worker</h1>
+
+        <p>
+            Create a secure account for authorized healthcare personnel. New users will be assigned
+            healthcare worker privileges by default.
+        </p>
+
+        <div class="auth-points">
+            <div>
+                <span>01</span>
+                <p>Register healthcare workers</p>
+            </div>
+
+            <div>
+                <span>02</span>
+                <p>Assign controlled access</p>
+            </div>
+
+            <div>
+                <span>03</span>
+                <p>Maintain system accountability</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-form-card">
+        <h2>Create New User</h2>
+        <p>Enter the details of the healthcare worker to be added to the system.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-wrap">
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('register') }}" class="auth-form">
+            <div class="form-group">
+                <label for="full_name">Full Name</label>
+                <input type="text" id="full_name" name="full_name" placeholder="Enter full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter email address" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Temporary Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter temporary password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">
+                Create Account
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}

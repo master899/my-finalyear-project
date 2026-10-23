@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Login | TB-CDSS{% endblock %}
+
+{% block content %}
+<section class="auth-layout">
+    <div class="auth-info-card">
+        <span class="badge" data-i18n="login.badge">Authorized Healthcare Personnel Access</span>
+
+        <h1 data-i18n="login.title">Healthcare Worker Login</h1>
+
+        <p data-i18n="login.text">
+            Sign in with your assigned credentials to access patient records, dashboard analytics,
+            screening history, and clinical report tools.
+        </p>
+
+        <div class="auth-points">
+            <div>
+                <span>01</span>
+                <p data-i18n="login.point1">Role-based access control</p>
+            </div>
+
+            <div>
+                <span>02</span>
+                <p data-i18n="login.point2">Protected screening records</p>
+            </div>
+
+            <div>
+                <span>03</span>
+                <p data-i18n="login.point3">Admin-approved permissions</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-form-card">
+        <h2 data-i18n="login.form_title">Login to Dashboard</h2>
+        <p data-i18n="login.form_text">Only authorized healthcare personnel can access this system.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-wrap">
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('login') }}" class="auth-form">
+            <div class="form-group">
+                <label for="email" data-i18n="login.email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter email address" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password" data-i18n="login.password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full" data-i18n="login.button">
+                Login
+            </button>
+        </form>
+
+        <div class="auth-note">
+            <strong data-i18n="login.notice_title">Access Notice</strong>
+            <p data-i18n="login.notice_text">Contact the system administrator if you do not have login credentials.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,378 @@
+{% extends 'base.html' %}
+
+{% block title %}Screening | TB Care Assist{% endblock %}
+
+{% block content %}
+
+<section class="screening-banner">
+
+    <div class="screening-banner-content">
+
+        <span class="badge" data-i18n="screen.badge">
+            TB Clinical Assessment
+        </span>
+
+        <h1 data-i18n="screen.title">
+            Tuberculosis Patient Screening Form
+        </h1>
+
+        <p data-i18n="screen.description">
+            Enter patient information and symptom details to assess risk level,
+            generate recommendations, and suggest appropriate laboratory tests.
+        </p>
+
+    </div>
+
+</section>
+
+
+<form action="{{ url_for('submit_screening') }}"
+      method="POST"
+      class="screening-form-card">
+
+    <div class="form-section">
+
+        <div class="section-header">
+
+            <h3 data-i18n="screen.patient_section">
+                Patient Information
+            </h3>
+
+            <p data-i18n="screen.patient_text">
+                Basic demographic information for the patient.
+            </p>
+
+        </div>
+
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label data-i18n="screen.patient_name">
+                    Patient Name
+                </label>
+
+                <input
+                        type="text"
+                        name="patient_name"
+                        required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label data-i18n="screen.age">
+                    Age
+                </label>
+
+                <input
+                        type="number"
+                        name="age"
+                        min="1"
+                        required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label data-i18n="screen.gender">
+                    Gender
+                </label>
+
+                <select name="gender" required>
+
+                    <option value=""
+                            data-i18n="screen.select_gender">
+                        Select Gender
+                    </option>
+
+                    <option value="Male"
+                            data-i18n="screen.male">
+                        Male
+                    </option>
+
+                    <option value="Female"
+                            data-i18n="screen.female">
+                        Female
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="form-section">
+
+        <div class="section-header">
+
+            <h3 data-i18n="screen.symptom_section">
+                Symptom Assessment
+            </h3>
+
+            <p data-i18n="screen.symptom_text">
+                Select the response that best matches patient symptoms.
+            </p>
+
+        </div>
+
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label data-i18n="screen.q1">
+                    Do you have a cough?
+                </label>
+
+                <select name="cough" required>
+
+                    <option value=""
+                            data-i18n="screen.select">
+                        Select
+                    </option>
+
+                    <option value="Yes"
+                            data-i18n="screen.yes">
+                        Yes
+                    </option>
+
+                    <option value="No"
+                            data-i18n="screen.no">
+                        No
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label data-i18n="screen.q2">
+                    Have you been coughing for more than 2 weeks?
+                </label>
+
+                <select name="cough_duration" required>
+
+                    <option value=""
+                            data-i18n="screen.select">
+                        Select
+                    </option>
+
+                    <option value="Yes"
+                            data-i18n="screen.yes">
+                        Yes
+                    </option>
+
+                    <option value="No"
+                            data-i18n="screen.no">
+                        No
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label data-i18n="screen.q3">
+                    Night Sweats
+                </label>
+
+                <select name="night_sweats" required>
+
+                    <option value=""
+                            data-i18n="screen.select">
+                        Select
+                    </option>
+
+                    <option value="Yes"
+                            data-i18n="screen.yes">
+                        Yes
+                    </option>
+
+                    <option value="No"
+                            data-i18n="screen.no">
+                        No
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label data-i18n="screen.q4">
+                    Weight Loss
+                </label>
+
+                <select name="weight_loss" required>
+
+                    <option value=""
+                            data-i18n="screen.select">
+                        Select
+                    </option>
+
+                    <option value="Yes"
+                            data-i18n="screen.yes">
+                        Yes
+                    </option>
+
+                    <option value="No"
+                            data-i18n="screen.no">
+                        No
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label data-i18n="screen.q5">
+                    Coughing Blood
+                </label>
+
+                <select name="coughing_blood" required>
+
+                    <option value=""
+                            data-i18n="screen.select">
+                        Select
+                    </option>
+
+                    <option value="Yes"
+                            data-i18n="screen.yes">
+                        Yes
+                    </option>
+
+                    <option value="No"
+                            data-i18n="screen.no">
+                        No
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label data-i18n="screen.q6">
+                    Fever
+                </label>
+
+                <select name="fever" required>
+
+                    <option value=""
+                            data-i18n="screen.select">
+                        Select
+                    </option>
+
+                    <option value="Yes"
+                            data-i18n="screen.yes">
+                        Yes
+                    </option>
+
+                    <option value="No"
+                            data-i18n="screen.no">
+                        No
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label data-i18n="screen.q7">
+                    Do you experience fatigue?
+                </label>
+
+                <select name="fatigue" required>
+
+                    <option value=""
+                            data-i18n="screen.select">
+                        Select
+                    </option>
+
+                    <option value="Yes"
+                            data-i18n="screen.yes">
+                        Yes
+                    </option>
+
+                    <option value="No"
+                            data-i18n="screen.no">
+                        No
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label data-i18n="screen.q8">
+                    Do you experience chest pain?
+                </label>
+
+                <select name="chest_pain" required>
+
+                    <option value=""
+                            data-i18n="screen.select">
+                        Select
+                    </option>
+
+                    <option value="Yes"
+                            data-i18n="screen.yes">
+                        Yes
+                    </option>
+
+                    <option value="No"
+                            data-i18n="screen.no">
+                        No
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="submit-area">
+
+        <input
+                type="hidden"
+                id="language_selected"
+                name="language_selected"
+                value="en">
+
+        <button
+                type="submit"
+                class="btn btn-primary">
+
+            <span data-i18n="screen.submit">
+                Submit Screening
+            </span>
+
+        </button>
+
+    </div>
+
+</form>
+
+{% endblock %}

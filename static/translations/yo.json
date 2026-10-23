@@ -1,0 +1,158 @@
+{
+  "system.subtitle": "Eto Atilẹyin Ipinnu Iṣegun Arun Kọ́kọ́rọ́ Ẹ̀dọ̀fóró",
+  "system.version": "Ẹya 1.0",
+
+  "topbar.welcome": "Kaabọ",
+
+  "footer.system": "TB-CDSS | Eto Atilẹyin Ipinnu Iṣegun Arun Kọ́kọ́rọ́ Ẹ̀dọ̀fóró",
+  "footer.project": "Iṣẹ́ Akanṣe Ọdún Ikẹyìn • 2026",
+
+  "nav.home": "Ile",
+  "nav.screening": "Ayẹwo",
+  "nav.dashboard": "Dasibodu",
+  "nav.add_user": "Ṣafikun Olumulo",
+  "nav.permission_requests": "Awọn Ibeere Aṣẹ",
+  "nav.logout": "Jade",
+  "nav.login": "Wọle",
+  "nav.language": "Ede",
+
+  "sidebar.note_title": "Ìwárí Tẹ́lẹ̀",
+  "sidebar.note_text": "Atilẹyin fun ayẹwo TB ni kutukutu ati ni aabo.",
+
+  "home.badge": "Atilẹyin Ayẹwo Iṣegun",
+  "home.title": "Eto Ayẹwo ati Iṣiro Ewu Arun Kọ́kọ́rọ́ Ẹ̀dọ̀fóró",
+  "home.description": "Eto ori ayelujara fun ayẹwo TB alakoko, iṣiro ewu, iṣeduro idanwo yàrá, ati atilẹyin ede pupọ.",
+  "home.start": "Bẹrẹ Ayẹwo",
+  "home.worker": "Wọle Gẹgẹbi Oṣiṣẹ Ilera",
+
+  "home.overview": "Akopọ Eto",
+  "home.method": "Ọna",
+  "home.method_text": "Ilana Ofin (Rule-Based Inference)",
+
+  "home.risk_levels": "Awọn Ipele Ewu",
+  "home.risk_text": "Kekere, Arin, Giga, Pajawiri",
+
+  "home.languages": "Awọn Ede",
+  "home.language_text": "Gẹ̀ẹ́sì, Yorùbá, Hausa, Igbo",
+
+  "home.output": "Abajade",
+  "home.output_text": "Iṣeduro ati Iroyin PDF",
+
+  "home.card1_title": "Ìwárí Tẹ́lẹ̀",
+  "home.card1_heading": "Ayẹwo Kíákíá",
+  "home.card1_text": "Ṣe iranlọwọ fun ìmú ìfura TB ni kutukutu.",
+
+  "home.card2_title": "Atilẹyin Ipinnu Iṣegun",
+  "home.card2_heading": "Ìtọ́kasí Ewu",
+  "home.card2_text": "N pese ipele ewu, iṣeduro, ati imọran idanwo yàrá.",
+
+  "home.card3_title": "Atilẹyin Ede Pupọ",
+  "home.card3_heading": "Lilo Fun Gbogbo Eniyan",
+  "home.card3_text": "Ṣe atilẹyin Gẹ̀ẹ́sì, Yorùbá, Hausa ati Igbo.",
+
+  "screen.badge": "Ayẹwo Iṣegun TB",
+  "screen.title": "Fọọmu Ayẹwo Alaisan TB",
+  "screen.description": "Tẹ alaye alaisan ati awọn aami aisan sii lati ṣe iṣiro ewu ati gba iṣeduro.",
+
+  "screen.form.badge": "Fọọmu Ayẹwo TB",
+  "screen.form.title": "Ayẹwo Alaisan",
+  "screen.form.text": "Pari fọọmu ni isalẹ lati ṣe iṣiro ewu TB ati gba iṣeduro iṣegun.",
+
+  "screen.patient_section": "Alaye Alaisan",
+  "screen.patient_text": "Alaye ipilẹ nipa alaisan.",
+
+  "screen.patient_name": "Orukọ Alaisan",
+  "screen.age": "Ọjọ-ori",
+  "screen.gender": "Abo",
+  "screen.select_gender": "Yan Abo",
+  "screen.male": "Ọkunrin",
+  "screen.female": "Obinrin",
+
+  "screen.symptom_section": "Ayẹwo Awọn Aami Aisan",
+  "screen.symptom_text": "Yan idahun to ba awọn aami aisan mu.",
+
+  "screen.q1": "Ṣe o ni ikọ?",
+  "screen.q2": "Ṣe ikọ naa ti ju ọsẹ meji lọ?",
+  "screen.q3": "Ṣe o maa n rẹ̀wẹ̀sì loru?",
+  "screen.q4": "Ṣe o ti padanu iwuwo lai mọ idi?",
+  "screen.q5": "Ṣe o n kọ ẹjẹ jade?",
+  "screen.q6": "Ṣe o ni iba?",
+  "screen.q7": "Ṣe o maa n rẹ nigbagbogbo?",
+  "screen.q8": "Ṣe o ni irora àyà?",
+
+  "screen.select": "Yan",
+  "screen.yes": "Bẹẹni",
+  "screen.no": "Rara",
+  "screen.submit": "Firanṣẹ Ayẹwo",
+
+  "dashboard.badge": "Dasibodu",
+  "dashboard.title": "Akopọ Oṣiṣẹ Ilera",
+  "dashboard.text": "Ṣakoso awọn igbasilẹ ayẹwo ati awọn abajade ewu.",
+
+  "dashboard.total": "Gbogbo Ayẹwo",
+  "dashboard.total_text": "Gbogbo awọn igbasilẹ ayẹwo alaisan",
+
+  "dashboard.high": "Awọn Ẹjọ Ewu Giga",
+  "dashboard.high_text": "Awọn alaisan ti o nilo ayẹwo pajawiri",
+
+  "dashboard.emergency": "Awọn Ẹjọ Pajawiri",
+  "dashboard.emergency_text": "Awọn alaisan ti o nilo gbigbe lọ lẹsẹkẹsẹ",
+
+  "dashboard.risk_distribution": "Pínpin Ewu",
+  "dashboard.risk_distribution_text": "Akopọ awọn ipele ewu",
+
+  "dashboard.recent": "Awọn Ayẹwo Tuntun",
+  "dashboard.recent_text": "Awọn igbasilẹ ayẹwo to ṣẹṣẹ",
+
+  "dashboard.empty_records": "Ko si igbasilẹ ayẹwo alaisan sibẹ.",
+
+  "result.badge": "Abajade Ayẹwo",
+  "result.title": "Iṣiro Ewu TB Alaisan",
+
+  "result.text": "Abajade yii jẹ fun atilẹyin ayẹwo alakoko nikan, kii ṣe ayẹwo dokita gangan.",
+
+  "result.risk": "Ipele Ewu",
+
+  "result.recommendation": "Iṣeduro Iṣegun",
+  "result.lab_test": "Awọn Idanwo Yàrá Ti A Ṣeduro",
+
+  "result.next": "Igbesẹ Tokan",
+  "result.next.text": "Tẹle iṣeduro loke ki o kan si amoye ilera to yẹ.",
+
+  "result.new": "Bẹrẹ Ayẹwo Tuntun",
+  "result.back": "Pada Si Ile",
+
+  "risk.low": "Ewu Kekere",
+  "risk.moderate": "Ewu Arin",
+  "risk.high": "Ewu Giga",
+  "risk.emergency": "Pajawiri",
+
+  "recommendation.low": "Tẹsiwaju pẹlu awọn ilana ilera to dara ki o maa ṣe atẹle awọn aami aisan.",
+  "recommendation.moderate": "Ṣabẹwo si ile-iwosan fun idanwo sputum smear microscopy.",
+  "recommendation.high": "Ayẹwo kiakia nilo. Ṣe idanwo GeneXpert ati X-ray àyà.",
+  "recommendation.emergency": "Gbigbe pajawiri nilo lẹsẹkẹsẹ fun GeneXpert, X-ray àyà ati idanwo aṣa TB.",
+
+  "test.low": "Ko si idanwo yàrá lẹsẹkẹsẹ ti a nilo.",
+  "test.moderate": "Idanwo ti a ṣeduro: Sputum smear microscopy.",
+  "test.high": "Awọn idanwo ti a ṣeduro: GeneXpert ati X-ray àyà.",
+  "test.emergency": "Awọn idanwo pajawiri: GeneXpert, X-ray àyà ati TB culture/drug susceptibility testing.",
+
+  "login.badge": "Wiwọle Fun Oṣiṣẹ Ilera Ti A Fọwọsi",
+  "login.title": "Wiwọle Oṣiṣẹ Ilera",
+  "login.text": "Wọle pẹlu alaye iwọle rẹ lati wọle si awọn igbasilẹ ati awọn irinṣẹ eto.",
+
+  "login.point1": "Iṣakoso wiwọle da lori ipa",
+  "login.point2": "Aabo awọn igbasilẹ ayẹwo",
+  "login.point3": "Awọn igbanilaaye ti admin fọwọsi",
+
+  "login.form_title": "Wọle Si Dasibodu",
+  "login.form_text": "Awọn oṣiṣẹ ilera ti a fun ni aṣẹ nikan ni o le wọle.",
+
+  "login.email": "Adirẹsi Imeeli",
+  "login.password": "Ọrọigbaniwọle",
+
+  "login.button": "Wọle",
+
+  "login.notice_title": "Akiyesi Wiwọle",
+  "login.notice_text": "Kan si alakoso eto ti o ko ba ni alaye iwọle."
+}

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}Home | TB-CDSS{% endblock %}
+
+{% block content %}
+<section class="home-hero">
+    <div class="hero-card">
+        <span class="badge" data-i18n="home.badge">Clinical Screening Support</span>
+
+        <h1 data-i18n="home.title">Tuberculosis Screening and Risk Assessment System</h1>
+
+        <p data-i18n="home.description">
+            A professional web-based decision support system for preliminary TB screening,
+            risk classification, laboratory test recommendation, and multilingual access.
+        </p>
+
+        <div class="hero-actions">
+            <a href="{{ url_for('screening') }}" class="btn btn-primary" data-i18n="home.start">Start Screening</a>
+
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('dashboard') }}" class="btn btn-secondary" data-i18n="nav.dashboard">Dashboard</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="btn btn-secondary" data-i18n="home.worker">Healthcare Worker Login</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="overview-card">
+        <h3 data-i18n="home.overview">System Overview</h3>
+
+        <div class="overview-list">
+            <div class="overview-item">
+                <span class="overview-icon blue">01</span>
+                <div>
+                    <h4 data-i18n="home.method">Method</h4>
+                    <p data-i18n="home.method_text">Rule-Based Inference</p>
+                </div>
+            </div>
+
+            <div class="overview-item">
+                <span class="overview-icon green">02</span>
+                <div>
+                    <h4 data-i18n="home.risk_levels">Risk Levels</h4>
+                    <p data-i18n="home.risk_text">Low, Moderate, High, Emergency</p>
+                </div>
+            </div>
+
+            <div class="overview-item">
+                <span class="overview-icon purple">03</span>
+                <div>
+                    <h4 data-i18n="home.languages">Languages</h4>
+                    <p data-i18n="home.language_text">English, Yoruba, Hausa, Igbo</p>
+                </div>
+            </div>
+
+            <div class="overview-item">
+                <span class="overview-icon amber">04</span>
+                <div>
+                    <h4 data-i18n="home.output">Output</h4>
+                    <p data-i18n="home.output_text">Recommendation and PDF Report</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="home-metrics">
+    <div class="metric-card">
+        <span class="metric-label" data-i18n="home.card1_title">Early Detection</span>
+        <h3 data-i18n="home.card1_heading">Prompt Screening</h3>
+        <p data-i18n="home.card1_text">Supports early identification of suspected tuberculosis cases.</p>
+    </div>
+
+    <div class="metric-card">
+        <span class="metric-label" data-i18n="home.card2_title">Clinical Decision Support</span>
+        <h3 data-i18n="home.card2_heading">Risk Classification</h3>
+        <p data-i18n="home.card2_text">Provides risk levels, recommendations, and laboratory test guidance.</p>
+    </div>
+
+    <div class="metric-card">
+        <span class="metric-label" data-i18n="home.card3_title">Multilingual Access</span>
+        <h3 data-i18n="home.card3_heading">Inclusive Use</h3>
+        <p data-i18n="home.card3_text">Supports English, Yoruba, Hausa, and Igbo for wider accessibility.</p>
+    </div>
+</section>
+{% endblock %}
