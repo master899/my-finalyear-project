@@ -32,12 +32,36 @@ def get_env_value(primary_key, aliases=None, default=None):
 
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = get_env_value("SECRET_KEY", default="change-this-secret-key")
+secret_key = get_env_value("SECRET_KEY")
 
-db_user = get_env_value("DB_USER", ["MYSQL_USER"], "root")
-db_password = get_env_value("DB_PASSWORD", ["MYSQL_PASSWORD"], "")
-db_host = get_env_value("DB_HOST", ["MYSQL_HOST"], "127.0.0.1")
-db_name = get_env_value("DB_NAME", ["MYSQL_DB"], "tb_cdss")
+db_user = get_env_value("DB_USER", ["MYSQL_USER"])
+db_password = get_env_value("DB_PASSWORD", ["MYSQL_PASSWORD"])
+db_host = get_env_value("DB_HOST", ["MYSQL_HOST"])
+db_name = get_env_value("DB_NAME", ["MYSQL_DB"])
+
+if os.getenv("VERCEL") == "1":
+    required_environment = {
+        "SECRET_KEY": secret_key,
+        "DB_HOST": db_host,
+        "DB_USER": db_user,
+        "DB_PASSWORD": db_password,
+        "DB_NAME": db_name,
+    }
+    missing_environment = [name for name, value in required_environment.items() if not value]
+    if missing_environment:
+        raise RuntimeError(
+            "Missing required Vercel environment variables: "
+            + ", ".join(missing_environment)
+        )
+    if secret_key == "change-this-secret-key":
+        raise RuntimeError("Set SECRET_KEY to a unique, private value in Vercel.")
+
+db_user = db_user or "root"
+db_password = db_password or ""
+db_host = db_host or "127.0.0.1"
+db_name = db_name or "tb_cdss"
+
+app.config["SECRET_KEY"] = secret_key or "change-this-secret-key"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = (
     f"mysql+pymysql://{quote_plus(db_user)}:{quote_plus(db_password)}"
@@ -193,16 +217,20 @@ with app.app_context():
     db.create_all()
     ensure_user_schema()
 
-    default_user = User.query.filter_by(email="admin@tbcare.com").first()
-    if not default_user:
-        default_user = User(
-            full_name="System Admin",
-            email="admin@tbcare.com",
+    admin_email = get_env_value("ADMIN_EMAIL")
+    admin_password = get_env_value("ADMIN_PASSWORD")
+    if bool(admin_email) != bool(admin_password):
+        raise RuntimeError("Set both ADMIN_EMAIL and ADMIN_PASSWORD to provision an admin.")
+
+    if admin_email and not User.query.filter_by(email=admin_email).first():
+        admin_user = User(
+            full_name=get_env_value("ADMIN_NAME", default="System Admin"),
+            email=admin_email,
             role="admin",
-            can_add_user=True
+            can_add_user=True,
         )
-        default_user.set_password("admin123")
-        db.session.add(default_user)
+        admin_user.set_password(admin_password)
+        db.session.add(admin_user)
         db.session.commit()
 
 
