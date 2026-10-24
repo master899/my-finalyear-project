@@ -60,13 +60,34 @@ db_user = db_user or "root"
 db_password = db_password or ""
 db_host = db_host or "127.0.0.1"
 db_name = db_name or "tb_cdss"
+db_port = os.getenv("DB_PORT", "3306")
 
-app.config["SECRET_KEY"] = secret_key or "change-this-secret-key"
+if not secret_key and os.getenv("VERCEL"):
+    raise RuntimeError("SECRET_KEY is required")
+
+app.config["SECRET_KEY"] = secret_key or "local-development-only"
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="Lax",
+    SESSION_COOKIE_SECURE=bool(os.getenv("VERCEL")),
+)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = (
-    f"mysql+pymysql://{quote_plus(db_user)}:{quote_plus(db_password)}"
-    f"@{db_host}/{db_name}"
+    f"mysql+pymysql://{quote_plus(db_user)}:"
+    f"{quote_plus(db_password)}@{db_host}:"
+    f"{db_port}/{db_name}"
 )
+if os.getenv("DB_SSL_CA"):
+    app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+        "pool_pre_ping": True,
+        "connect_args": {
+            "ssl": {
+                "ca": os.getenv("DB_SSL_CA"),
+                "check_hostname": True,
+                "verify_mode": 2,
+            }
+        },
+    }
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
@@ -300,6 +321,7 @@ def submit_screening():
 
     db.session.add(screening_record)
     db.session.commit()
+    session["last_screening_id"] = screening_record.id
 
     return render_template(
         "result.html",
@@ -509,6 +531,19 @@ def revoke_add_user_permission(user_id):
 
 @app.route("/export-pdf/<int:screening_id>")
 def export_pdf(screening_id):
+    user_id = session.get("user_id")
+    is_staff = False
+    if user_id:
+        user = db.session.get(User, user_id)
+        is_staff = bool(
+            user and user.role in ("admin", "health_worker")
+        )
+    owns_result = (
+        session.get("last_screening_id") == screening_id
+    )
+    if not (is_staff or owns_result):
+        return "Access denied", 403
+
     screening = Screening.query.get_or_404(screening_id)
 
     buffer = BytesIO()
@@ -625,4 +660,8 @@ def export_pdf(screening_id):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8081, debug=True)
+    app.run(
+        host="127.0.0.1",
+        port=8081,
+        debug=False,
+    )
